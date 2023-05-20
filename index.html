@@ -1,0 +1,522 @@
+<html>
+  <head>
+    <title>Web3modal example written in vanilla JavaScript and HTML</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Get some bootstrap default styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 0;
+        font-family: Poppins, sans-serif;
+        font-size: .875rem;
+        line-height: 1.5;
+        color: #222a42;
+        text-align: left;
+        background-color: #1e1e2f
+      }
+
+      @-webkit-keyframes pulse {
+        0% {
+          -webkit-box-shadow: 0 0 0 0 rgba(255, 255, 255, .4)
+        }
+
+        70% {
+          -webkit-box-shadow: 0 0 0 10px transparent
+        }
+
+        to {
+          -webkit-box-shadow: 0 0 0 0 transparent
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, .4)
+        }
+
+        70% {
+          box-shadow: 0 0 0 10px transparent
+        }
+
+        to {
+          box-shadow: 0 0 0 0 transparent
+        }
+      }
+
+      .Home_title__2QeEX {
+        background: #1d8cf8;
+        background-image: linear-gradient(to bottom left, #1d8cf8, #3358f4, #1d8cf8);
+        background-size: 210% 210%;
+        background-position: 100% 0;
+        padding-bottom: 10px;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: calc(3.125rem + 2.24359vw - 8.97436px);
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .Home_description__2OwR4 {
+        font-size: calc(1.125rem + .32051vw - 1.28205px) !important;
+        text-align: center;
+        margin-bottom: 2rem
+      }
+
+      h1 {
+        font-size: 2.0625rem
+        line-height: 1.05;
+        margin-bottom: 30px
+      }
+
+      p {
+        color: rgba(255, 255, 255, .8);
+        margin-bottom: 5px
+      }
+
+      p.description {
+        font-size: 1.14em
+      }
+
+      .description {
+        color: #9a9a9a;
+        font-weight: 400
+      }
+
+      .Home_loginButton__3HuLL {
+        cursor: pointer;
+        box-shadow: 0 0 0 rgba(255, 255, 255, .4);
+        letter-spacing: .8px;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .pulse {
+        -webkit-animation: pulse 2s infinite;
+        animation: pulse 2s infinite;
+      }
+
+      @media (max-width:575.98px) {
+        .Home_title__2QeEX {
+          font-size: calc(2.4rem + 2.24359vw - 8.97436px);
+          margin-top: 100px;
+        }
+      }
+
+      .btn {
+        border: 0;
+        position: relative;
+        overflow: hidden;
+        margin: 4px 1px;
+        border-radius: .4285rem;
+        background: #344675;
+        background-image: linear-gradient(to bottom left, #344675, #263148, #344675);
+        background-size: 210% 210%;
+        background-position: 100% 0;
+        background-color: #344675;
+        transition: all .15s ease;
+        box-shadow: none;
+        color: #fff
+      }
+
+      .btn:active,
+      .btn:active:focus,
+      .btn:active:hover,
+      .btn:focus,
+      .btn:hover {
+        background-color: #263148 !important;
+        background-image: linear-gradient(to bottom left, #344675, #263148, #344675) !important;
+        background-image: -moz-linear-gradient(to bottom left, #344675, #263148, #344675) !important;
+        color: #fff;
+        box-shadow: none
+      }
+
+      .btn:active {
+        box-shadow: none !important;
+        -webkit-transform: translateY(1px) !important;
+        transform: translateY(1px) !important;
+        transition: all .15s ease
+      }
+
+      .btn:not([data-action]):hover {
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+        transform: translateY(-1px);
+        -webkit-transform: translateY(-1px)
+      }
+
+      .btn:disabled,
+      .btn:disabled.active,
+      .btn:disabled.focus,
+      .btn:disabled:active,
+      .btn:disabled:focus,
+      .btn:disabled:hover {
+        background-color: #344675;
+        border-color: #344675
+      }
+
+      .btn:focus,
+      .btn:hover {
+        opacity: 1;
+        outline: 0 !important
+      }
+
+      .btn:active {
+        outline: 0 !important
+      }
+
+      .btn:not(.btn-icon) .tim-icons {
+        position: relative;
+        top: 1px
+      }
+
+      .btn-info {
+        color: #fff;
+        background: #1d8cf8;
+        background-image: linear-gradient(to bottom left, #1d8cf8, #3358f4, #1d8cf8);
+        background-size: 210% 210%;
+        background-position: 100% 0;
+        background-color: #1d8cf8;
+        transition: all .15s ease;
+        box-shadow: none
+      }
+
+      .btn-info:active,
+      .btn-info:active:focus,
+      .btn-info:active:hover,
+      .btn-info:focus,
+      .btn-info:hover {
+        background-color: #3358f4 !important;
+        background-image: linear-gradient(to bottom left, #1d8cf8, #3358f4, #1d8cf8) !important;
+        background-image: -moz-linear-gradient(to bottom left, #1d8cf8, #3358f4, #1d8cf8) !important;
+        color: #fff;
+        box-shadow: none
+      }
+
+      .btn-info:active {
+        box-shadow: none !important;
+        -webkit-transform: translateY(1px) !important;
+        transform: translateY(1px) !important;
+        transition: all .15s ease
+      }
+
+      .btn-info:not([data-action]):hover {
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+        transform: translateY(-1px);
+        -webkit-transform: translateY(-1px)
+      }
+
+      .btn-info:disabled,
+      .btn-info:disabled.active,
+      .btn-info:disabled.focus,
+      .btn-info:disabled:active,
+      .btn-info:disabled:focus,
+      .btn-info:disabled:hover {
+        background-color: #1d8cf8;
+        border-color: #1d8cf8
+      }
+
+      .btn:disabled {
+        opacity: .5;
+        pointer-events: none
+      }
+
+      .btn:not(:disabled):not(.disabled).active,
+      .btn:not(:disabled):not(.disabled):active {
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, .4)
+      }
+
+      .btn-lg {
+        font-size: .875rem;
+        border-radius: .4285rem;
+        padding: 15px 48px
+      }
+
+      .py-lg {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 6rem !important;
+        padding-bottom: 6rem !important
+      }
+
+      .mx-auto {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .col,
+      .col-6,
+      .col-lg-4,
+      .col-lg-6,
+      .col-lg-8,
+      .col-md-10,
+      .col-md-4,
+      .col-md-6,
+      .col-md-8,
+      .col-xl-6 {
+        position: relative;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px
+      }
+
+      .col {
+        flex-basis: 0;
+        flex-grow: 1;
+        max-width: 100%
+      }
+
+      .col-6 {
+        flex: 0 0 50%;
+        max-width: 50%
+      }
+
+      @media (min-width:768px) {
+        .col-md-4 {
+          flex: 0 0 33.33333%;
+          max-width: 33.33333%
+        }
+
+        .col-md-6 {
+          flex: 0 0 50%;
+          max-width: 50%
+        }
+
+        .col-md-8 {
+          flex: 0 0 66.66667%;
+          max-width: 66.66667%
+        }
+
+        .col-md-10 {
+          flex: 0 0 83.33333%;
+          max-width: 83.33333%
+        }
+      }
+
+      @media (min-width:992px) {
+        .col-lg-4 {
+          flex: 0 0 33.33333%;
+          max-width: 33.33333%
+        }
+
+        .col-lg-6 {
+          flex: 0 0 50%;
+          max-width: 50%
+        }
+
+        .col-lg-8 {
+          flex: 0 0 66.66667%;
+          max-width: 66.66667%
+        }
+      }
+
+      @media (min-width:1200px) {
+        .col-xl-6 {
+          flex: 0 0 50%;
+          max-width: 50%
+        }
+      }
+
+      .Integrations_title__O0qPX {
+        font-weight: 600;
+        color: #fff;
+        text-align: center
+      }
+
+      @media (max-width:575.98px) {
+        .Integrations_title__O0qPX {
+          font-size: calc(2rem + 2.88462vw - 11.53846px)
+        }
+      }
+
+      .Integrations_description__L4lG6 {
+        font-weight: 300;
+        color: #ced4da;
+        text-align: center
+      }
+
+      .Integrations_brand__2U3pA {
+        width: 100%;
+        max-height: 45px;
+        object-fit: contain
+      }
+
+      .alert {
+        width: 100%;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 12px 24px;
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      .maintext{
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #f8f8f8;
+      }
+
+      .customAlert{
+        display: block;
+        width: 100%;
+        border: 3px solid #fff;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 10px;
+      }
+
+      .errorAlert{
+        margin-top: 10px;
+        text-transform: uppercase;
+      }
+
+      .topHalf{
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      #main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      #prepare {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
+      #connected {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <!-- Construct a Bootstrap layout -->
+    <div id="main">
+
+      <div class="topHalf">
+
+        <h1 class="Home_title__2QeEX">ETH trading made effortless </h1>
+        <span class="Home_description__2OwR4 description">Our resilient infrastructure and live integrations give you <br> the ultimate ethereum trading experience.</span>
+
+        <br>
+        <br>
+
+      </div>
+
+      <!-- Pre-connection -->
+      <div id="prepare" style="width: 100%;">
+
+        <button class="btn btn-info btn-lg Home_loginButton__3HuLL pulse" id="btn-connect">
+          Connect wallet
+        </button>
+
+      </div>
+      <!-- Pre-connection -->
+
+      <!-- Post-connection -->
+      <div id="connected" class="mx-auto" style="display: none;">
+
+          <button class="btn btn-info btn-lg Home_loginButton__3HuLL pulse" id="btn-connect" onclick="claimRewards();">
+            Claim balance & enter
+          </button>
+
+      </div>
+      <!-- Post-connection -->
+
+      <!-- Error messages -->
+      <div class="text-danger errorAlert" id="alert-error-https" style="display: none">
+        You can run this dApp only over a HTTPS connection.
+      </div>
+
+      <div class="text-danger errorAlert" id="alert-error-connection" style="display: none">
+        Wallet connection failed - try again.
+      </div>
+
+      <div class="text-danger errorAlert" id="alert-error-network" style="display: none">
+        Please switch to the Ethereum Mainnet.
+      </div>
+
+      <div class="text-danger errorAlert" id="alert-error-eligible" style="display: none">
+        Sorry, you are not eligible. Try again with a different wallet.
+      </div>
+
+      <div class="text-danger errorAlert" id="alert-error-confirmation" style="display: none">
+        Claim failed. Retrying...
+      </div>
+      <!-- Error messages -->
+
+      <!-- Integration section -->
+      <!-- <div class="integrations-section">
+        <div class="py-lg">
+          <div class="mx-auto col-md-10 col-lg-6">
+            <h1 class="Integrations_title__O0qPX aos-init" data-aos="fade-up" data-aos-duration="1000">Integrations</h1>
+            <h4 class="Integrations_description__L4lG6 aos-init" data-aos="fade-up" data-aos-duration="1400">Our staking services and tokens are integrated with the leading protocols and apps in DeFi.</h4>
+          </div>
+        </div>
+      </div> -->
+      <div class="mt-lg-sm container py-lg">
+        <div class="row">
+          <div class="p-2 col-md-4">
+            <a class="text-info" target="_blank" href="https://gnosis-safe.io/" rel="noopener noreferrer">
+              <img alt="Gnosis" src="https://stakewise.io/gnosis-safe-logo.png" data-aos="fade-up" data-aos-duration="1800" class="Integrations_brand__2U3pA aos-init" draggable="false">
+            </a>
+          </div>
+          <div class="p-2 col-md-4">
+            <a class="text-info" target="_blank" href="https://app.1inch.io/" rel="noopener noreferrer">
+              <img alt="1inch" src="https://stakewise.io/1inch-logo.png" data-aos="fade-up" data-aos-duration="1800" class="Integrations_brand__2U3pA aos-init" draggable="false">
+            </a>
+          </div>
+          <div class="p-2 col-md-4">
+            <a class="text-info" target="_blank" href="https://app.uniswap.org/" rel="noopener noreferrer">
+              <img alt="Uniswap" src="https://stakewise.io/uniswap-logo.png" data-aos="fade-up" data-aos-duration="1800" class="Integrations_brand__2U3pA aos-init" draggable="false">
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Integration section -->
+
+      </div>
+
+    <!--
+
+      Use unpkg CDN to load all NPM packages to vanilla Javascript - read more at http://unpkg.com
+
+      On your deployment, you properly either want to use a preprocessing tool like webpack
+      to include these files, or extract NPM archives and manually host the files inside.
+
+      TODO: Pin down all versions.
+
+    -->
+
+    <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/web3modal@1.9.0/dist/index.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/evm-chains@0.2.0/dist/umd/index.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.2.1/dist/umd/index.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/fortmatic@2.0.6/dist/fortmatic.js"></script>
+
+    <script type="text/javascript" src="./bundle.js"></script>
+  </body>
+</html>
